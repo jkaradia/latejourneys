@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//test/com/latejourneys/service/ClaimFormTest.java=UTF-8
+encoding//test/com/latejourneys/service/GetDetailsTest.java=UTF-8
+encoding//test/com/latejourneys/service/LateJourneysEndToEndTest.java=UTF-8
+encoding//test/com/latejourneys/service/TestHttpClient.java=UTF-8

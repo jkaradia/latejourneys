@@ -1,0 +1,63 @@
+{ "journeys" : [ {
+		"id" : "1",
+		"card" : "132312312",
+		"from" : "Aldgate",
+		"to" : "Amersham",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "1"
+	}, {
+		"id" : "5",
+		"card" : "132312312",
+		"from" : "Chesham",
+		"to" : "Watford",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "1"
+	}, 	{
+		"id" : "6",
+		"card" : "132312312",
+		"from" : "Barbican",
+		"to" : "Harrow",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "1"
+	}, 
+	{
+		"id" : "2",
+		"card" : "132312312",
+		"from" : "Aldgate",
+		"to" : "Watford",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "0"
+	}, {
+		"id" : "4",
+		"card" : "132312312",
+		"from" : "Old Street",
+		"to" : "Amersham",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "0"
+	}, {
+		"id" : "3",
+		"card" : "132312312",
+		"from" : "Aldgate",
+		"to" : "Rayners Lane",
+		"start" : "10:34 01/01/2031",
+		"end" : "10:35 01/01/2021",
+		"expected" : "10",
+		"actual" : "100",
+		"claim" : "1"
+	} ]
+}
