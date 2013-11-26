@@ -25,7 +25,7 @@ public class OysterWebClient extends WebClient {
 	public OysterWebClient() {
 		 super(BrowserVersion.CHROME);
 
-		super.setIncorrectnessListener(new IncorrectnessListenerImpl() {
+		setIncorrectnessListener(new IncorrectnessListenerImpl() {
 
 			@Override
 			public void notify(String arg0, Object arg1) {
@@ -36,16 +36,17 @@ public class OysterWebClient extends WebClient {
 		});
 		
 		final SilentCssErrorHandler eh = new SilentCssErrorHandler();
-		super.setCssErrorHandler(eh);
-		super.getOptions().setThrowExceptionOnScriptError(false);
-		super.getOptions().setThrowExceptionOnFailingStatusCode(false);
-		super.getOptions().setUseInsecureSSL(true);
-		super.getOptions().setCssEnabled(false);
-		super.getOptions().setPopupBlockerEnabled(false);
-		super.getOptions().setRedirectEnabled(true);
-		super.getOptions().setJavaScriptEnabled(true);
-		super.setJavaScriptTimeout(3600);
-		super.getOptions().setTimeout(9000);
+		setCssErrorHandler(eh);
+		getOptions().setThrowExceptionOnScriptError(false);
+		getOptions().setThrowExceptionOnFailingStatusCode(false);
+		getOptions().setUseInsecureSSL(true);
+		getOptions().setCssEnabled(false);
+		getOptions().setAppletEnabled(false);
+		getOptions().setPopupBlockerEnabled(false);
+		getOptions().setRedirectEnabled(true);
+		getOptions().setJavaScriptEnabled(true);
+		setJavaScriptTimeout(3600);
+		getOptions().setTimeout(9000);
 
 		setCookieManager(new CookieManager() {
 			protected int getPort(final URL url) {

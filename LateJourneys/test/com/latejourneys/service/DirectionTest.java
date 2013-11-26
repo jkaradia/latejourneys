@@ -25,8 +25,11 @@ public class DirectionTest extends DefaultHandler {
 	final private String charset = "UTF-8";
 
 	public InputStream connect() throws Exception {
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
+	/*	Proxy proxyAWS = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"54.235.176.169", 3128));
+		*/
+		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
+				"212.54.128.40", 3128));
 
 		String query = String
 				.format("language=en&sessionID=0&place_origin=London&type_origin=stop&name_origin=%s&place_destination=London&type_destination=stop&name_destination=%s&itdDate=20131101&itdTime=0800",

@@ -80,11 +80,11 @@ public class TestHttpClient {
 
 		HtmlForm form3 = (HtmlForm) page1
 				.getFirstByXPath("//form[@id='sign-in']");
-		HtmlInput input1 = form3.getInputByName("j_username");
-		input1.setValueAttribute("jkaradia");
+		HtmlInput input1 = form3.getInputByName("UserName");
+		input1.setValueAttribute("jayesh@karadia.com");
 
-		HtmlInput input2 = form3.getInputByName("j_password");
-		input2.setValueAttribute("Jay50esh");
+		HtmlInput input2 = form3.getInputByName("Password");
+		input2.setValueAttribute("Pa55word");
 
 		HtmlSubmitInput submit1 = form3.getInputByName("Sign in");
 

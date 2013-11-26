@@ -1,5 +1,6 @@
 package com.latejourneys.service;
 
+import java.awt.SystemColor;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -45,13 +47,11 @@ import com.latejourneys.proxy.OysterWebClient;
 
 public class LateJourneysEndToEndTest {
 
-
-
 	final private String charset = "UTF-8";
 
 	public InputStream connect() throws Exception {
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"54.235.176.169", 3128));
+				"212.54.128.40", 3128));
 
 		String query = String
 				.format("language=en&sessionID=0&place_origin=London&type_origin=stop&name_origin=%s&place_destination=London&type_destination=stop&name_destination=%s&itdDate=20131101&itdTime=0800",
@@ -69,16 +69,16 @@ public class LateJourneysEndToEndTest {
 		return connection.getInputStream();
 
 	}
-	
-	//	String from = "Eastcote";
-		// String to = "Elephant & Castle";
 
-		String from = "Rayners Lane";
-		String to = "Great Portland Street";
-	
-	 int min = Integer.MAX_VALUE;
-	 int max = 0;
-	 int journeys = 0;
+	// String from = "Eastcote";
+	// String to = "Elephant & Castle";
+
+	String from = "Rayners Lane";
+	String to = "Great Portland Street";
+
+	int min = Integer.MAX_VALUE;
+	int max = 0;
+	int journeys = 0;
 
 	public void getXml() {
 		try {
@@ -91,8 +91,7 @@ public class LateJourneysEndToEndTest {
 			// default handler for SAX handler class
 			// all three methods are written in handler's body
 			DefaultHandler defaultHandler = new DefaultHandler() {
-				
-				
+
 				// this method is called every time the parser gets an open tag
 				// '<'
 				// identifies which tag is being open at time by assigning an
@@ -101,22 +100,22 @@ public class LateJourneysEndToEndTest {
 						String qName, Attributes attributes)
 						throws SAXException {
 
-				
 					if (qName.equalsIgnoreCase("itdRoute")) {
-						String[] duration = attributes
-								.getValue("publicDuration").split(":");
-						int durationInMinutes = Integer.valueOf(duration[0]) * 60 + Integer.valueOf(duration[1]);
-						if (durationInMinutes > max) { 
+						String[] duration = attributes.getValue(
+								"publicDuration").split(":");
+						int durationInMinutes = Integer.valueOf(duration[0])
+								* 60 + Integer.valueOf(duration[1]);
+						if (durationInMinutes > max) {
 							max = durationInMinutes;
 						}
-						
-						if (durationInMinutes < min) { 
+
+						if (durationInMinutes < min) {
 							min = durationInMinutes;
 						}
-						
+
 						journeys++;
-					//	System.out.println(durationInMinutes);
-						
+						// System.out.println(durationInMinutes);
+
 					}
 				}
 
@@ -141,12 +140,12 @@ public class LateJourneysEndToEndTest {
 	public void testFileParse() {
 		DirectionTest readXml = new DirectionTest();
 		readXml.getXml();
-		
+
 		System.out.println("Total Journey: " + journeys);
 		System.out.println("From: " + from + " To: " + to);
 		System.out.println("Range: " + min + " min to " + max + " min");
 	}
-	
+
 	// @Test
 	public void homePage() throws Exception {
 		final WebClient webClient = new WebClient();
@@ -165,8 +164,21 @@ public class LateJourneysEndToEndTest {
 		webClient.closeAllWindows();
 	}
 
+	static long time = System.currentTimeMillis();
+	static int count = 1;
+
+	private static void time(String message) {
+		System.out.println(count++
+				+ ") "
+				+ message
+				+ ":"
+				+ TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()
+						- time));
+	}
+
 	@Test
 	public void oysterLogin() throws Exception {
+
 		Logger logger = Logger.getLogger("");
 		logger.setLevel(Level.OFF);
 
@@ -174,53 +186,57 @@ public class LateJourneysEndToEndTest {
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 		Date currentDate = new Date();
 		String formattedCurrentDate = df.format(currentDate);
-		
+
 		GregorianCalendar calendar = new GregorianCalendar();
-	    calendar.setTime(currentDate);
-	    calendar.add(Calendar.DATE, NO_OF_DAYS );
-	    Date twoWeeksEarlierDate = calendar.getTime();
-	    String formattedTwoWeeksEalierDate = df.format(twoWeeksEarlierDate);
-	    
+		calendar.setTime(currentDate);
+		calendar.add(Calendar.DATE, NO_OF_DAYS);
+		Date twoWeeksEarlierDate = calendar.getTime();
+		String formattedTwoWeeksEalierDate = df.format(twoWeeksEarlierDate);
+
 		final OysterWebClient webClient = new OysterWebClient();
-		
+
 		Pattern dates = Pattern
 				.compile("(\\d{2}:\\d{2})\\s?-\\s?(\\d{2}:\\d{2})");
 
 		Pattern station = Pattern.compile("([\\w\\s]*?) to ([\\w\\s]*?)");
 
+		time("before get login");
 		HtmlPage page1 = webClient
 				.getPage("https://oyster.tfl.gov.uk/oyster/entry.do");
 
+		time("after get login");
+
 		HtmlForm form3 = (HtmlForm) page1
 				.getFirstByXPath("//form[@id='sign-in']");
-		HtmlInput input1 = form3.getInputByName("j_username");
-		input1.setValueAttribute("jkaradia");
+		HtmlInput input1 = form3.getInputByName("UserName");
+		input1.setValueAttribute("jayesh@karadia.com");
 
-		HtmlInput input2 = form3.getInputByName("j_password");
-		input2.setValueAttribute("Jay50esh");
+		HtmlInput input2 = form3.getInputByName("Password");
+		input2.setValueAttribute("Pa55word");
 
 		HtmlSubmitInput submit1 = form3.getInputByName("Sign in");
-
+		time("before login click");
 		page1 = submit1.click();
+		time("after login click");
 
 		HtmlElement result = (HtmlElement) page1
 				.getElementById("select_card_no");
-		for (DomElement element : result.getChildElements()) {
-		String cardNumber = element.asText().trim();
-		
+	//	for (DomElement element : result.getChildElements()) {
+		//	String cardNumber = element.asText().trim(); 
+String cardNumber = "057435651554"; {
 			System.out.println("cardnumber:" + cardNumber);
+			time("before card");
 			if (isNumeric(cardNumber)) {
-				
 
 				HtmlForm form = (HtmlForm) page1
 						.getFirstByXPath("//form[@id='selectCardForm']");
 
-
-				webClient.select(form,"select_card_no",cardNumber); 
+				webClient.select(form, "select_card_no", cardNumber);
 
 				final HtmlPage page2 = webClient.clickByValue(form, "Go");
 
-				HtmlPage page3 = webClient.getPageByAnchor(page2, "Journey history");
+				HtmlPage page3 = webClient.getPageByAnchor(page2,
+						"Journey history");
 
 				HtmlTable table = page3
 						.getFirstByXPath("//table[@class='journeyhistory']");
@@ -230,63 +246,76 @@ public class LateJourneysEndToEndTest {
 
 				webClient.select(form2, "date-range", "custom date range");
 
-				webClient.setValue(form2, "csDateFrom",formattedTwoWeeksEalierDate);
+				webClient.setValue(form2, "csDateFrom",
+						formattedTwoWeeksEalierDate);
 
-				webClient.setValue(form2, "csDateTo",formattedCurrentDate);
+				webClient.setValue(form2, "csDateTo", formattedCurrentDate);
+				time("Before Set Date Range");
 				HtmlPage page4 = webClient.clickByValue(form2, "Go");
-				
+				time("AFter Set Date Range");
 				HtmlTable table2 = page4
 						.getFirstByXPath("//table[@class='journeyhistory']");
-				 
+
 				int difference = 0;
 				for (HtmlTableBody body : table2.getBodies()) {
-					 				
-				for (HtmlTableRow row : body.getRows()) {
-					for (HtmlTableCell cell : row.getCells()) {
-						String classAttribute = cell.getAttribute("class");
-						if (classAttribute.equals("no-wrap")) {
 
-							Matcher m = dates.matcher(cell.getTextContent()
-									.trim());
-							if (m.matches()) {
-								difference = timeDifference(m.group(1).trim(), m
-												.group(2).trim());
-							}
-						} else if (classAttribute.equals("status-1")) {
+					for (HtmlTableRow row : body.getRows()) {
+						for (HtmlTableCell cell : row.getCells()) {
+							String classAttribute = cell.getAttribute("class");
+							if (classAttribute.equals("no-wrap")) {
 
-							Matcher m = station.matcher(cell.getTextContent()
-									.trim());
-							if (m.matches()) {
-								 from = m.group(1);
-								 to = m.group(2);
-								System.out.println(difference + "   From: " + from
-										+ " To " + to);
-								
-								
-								getXml();
-								
-								System.out.println("Total Journey: " + journeys);
-								System.out.println("From: " + from + " To: " + to);
-								System.out.println("Range: " + min + " min to " + max + " min");
-								
-								if (difference > max + 15) {
-									System.out.println("*************Claim***********");
-								} else {
-								System.out.println("*************OK****************");
+								Matcher m = dates.matcher(cell.getTextContent()
+										.trim());
+								if (m.matches()) {
+									difference = timeDifference(m.group(1)
+											.trim(), m.group(2).trim());
 								}
-								 
-								
+							} else if (classAttribute.equals("status-1")) {
+
+								Matcher m = station.matcher(cell
+										.getTextContent().trim());
+								if (m.matches()) {
+									from = m.group(1);
+									to = m.group(2);
+									System.out.println(difference + "   From: "
+											+ from + " To " + to);
+
+									time("before journey check");
+									getXml();
+									time("after journey check");
+
+									System.out.println("Total Journey: "
+											+ journeys);
+									System.out.println("From: " + from
+											+ " To: " + to);
+									System.out.println("Range: " + min
+											+ " min to " + max + " min");
+
+									if (difference > max + 15) {
+										System.out
+												.println("*************Claim***********");
+									} else {
+										System.out
+												.println("*************OK****************");
+									}
+
+								}
+							} else if (classAttribute
+									.equals("day-date status-1")) {
+								System.out
+										.println(cell.getTextContent().trim());
 							}
-						} else if (classAttribute.equals("day-date status-1")) {
-							System.out.println(cell.getTextContent().trim());
+
 						}
 
 					}
-
 				}
-			}}
+			}
+			time("after card");
 		}
 		webClient.closeAllWindows();
+
+		time("finish");
 
 	}
 
