@@ -1,16 +1,14 @@
-package com.latejourneys.proxy;
+package com.latejourneys.proxy.htmlunit;
 
 import java.net.URL;
 
+import org.springframework.stereotype.Component;
 
-import com.gargoylesoftware.htmlunit.AjaxController;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.IncorrectnessListenerImpl;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -18,14 +16,16 @@ import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
-public class OysterWebClient extends WebClient {
+@Component
+@SuppressWarnings("serial")
+public class HtmlUnitWebClient extends WebClient {
 
 	private HtmlPage currentPage;
 
-	public OysterWebClient() {
-		 super(BrowserVersion.CHROME);
+	public HtmlUnitWebClient() {
+		super(BrowserVersion.CHROME);
 
-		setIncorrectnessListener(new IncorrectnessListenerImpl() {
+		super.setIncorrectnessListener(new IncorrectnessListenerImpl() {
 
 			@Override
 			public void notify(String arg0, Object arg1) {
@@ -34,30 +34,27 @@ public class OysterWebClient extends WebClient {
 			}
 
 		});
-		
 		final SilentCssErrorHandler eh = new SilentCssErrorHandler();
-		setCssErrorHandler(eh);
-		getOptions().setThrowExceptionOnScriptError(false);
-		getOptions().setThrowExceptionOnFailingStatusCode(false);
-		getOptions().setUseInsecureSSL(true);
-		getOptions().setCssEnabled(false);
-		getOptions().setAppletEnabled(false);
-		getOptions().setPopupBlockerEnabled(false);
-		getOptions().setRedirectEnabled(true);
-		getOptions().setJavaScriptEnabled(true);
-		setJavaScriptTimeout(3600);
-		getOptions().setTimeout(9000);
+		super.setCssErrorHandler(eh);
+		super.getOptions().setThrowExceptionOnScriptError(false);
+		super.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		super.getOptions().setUseInsecureSSL(true);
+		super.getOptions().setCssEnabled(false);
+		super.getOptions().setPopupBlockerEnabled(false);
+		super.getOptions().setRedirectEnabled(true);
+		super.getOptions().setJavaScriptEnabled(false);
+		super.setJavaScriptTimeout(3600);
+		super.getOptions().setTimeout(9000);
 
 		setCookieManager(new CookieManager() {
 			protected int getPort(final URL url) {
 				final int r = super.getPort(url);
 				return r != -1 ? r : 80;
 			}
-		});  
+		});
+
 	}
 
-	
-	
 	public void setValue(HtmlForm form, String name, String value) {
 		HtmlInput input = form.getInputByName(name);
 		input.setValueAttribute(value);
@@ -75,11 +72,8 @@ public class OysterWebClient extends WebClient {
 
 	public HtmlPage clickByValue(HtmlForm form, String button) {
 		HtmlInput submit = form.getInputByValue(button);
-		
 		try {
-			 submit.click();
-			 waitForBackgroundJavaScript(20000);
-			 currentPage = (HtmlPage) getCurrentWindow().getEnclosedPage();
+			currentPage = submit.click();
 			return currentPage;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -89,10 +83,9 @@ public class OysterWebClient extends WebClient {
 	public HtmlPage getPageByAnchor(HtmlPage page, String anchorName) {
 
 		HtmlAnchor anchor = page.getAnchorByText(anchorName);
+		System.out.println("Href : " + anchor.getAttribute("href"));
 		try {
-			 anchor.click();
-			waitForBackgroundJavaScript(20000);
-			 currentPage = (HtmlPage) getCurrentWindow().getEnclosedPage();
+			currentPage = anchor.click();
 			return currentPage;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -127,5 +120,6 @@ public class OysterWebClient extends WebClient {
 		HtmlInput input = (HtmlInput) page.getElementByName(name);
 		return input.getValueAttribute();
 	}
+	
 
 }

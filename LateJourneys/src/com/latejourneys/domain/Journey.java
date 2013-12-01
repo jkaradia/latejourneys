@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(value="prototype")
 public class Journey implements Serializable {
 	/**
 	 * @return the fromStation

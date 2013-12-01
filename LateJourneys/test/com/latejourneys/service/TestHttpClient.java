@@ -30,7 +30,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.latejourneys.proxy.OysterWebClient;
+import com.latejourneys.proxy.htmlunit.HtmlUnitWebClient;
 
 public class TestHttpClient {
 
@@ -68,7 +68,7 @@ public class TestHttpClient {
 	    Date twoWeeksEarlierDate = calendar.getTime();
 	    String formattedTwoWeeksEalierDate = df.format(twoWeeksEarlierDate);
 	    
-		final OysterWebClient webClient = new OysterWebClient();
+		final HtmlUnitWebClient webClient = new HtmlUnitWebClient();
 		
 		Pattern dates = Pattern
 				.compile("(\\d{2}:\\d{2})\\s?-\\s?(\\d{2}:\\d{2})");
@@ -122,8 +122,7 @@ public class TestHttpClient {
 				webClient.setValue(form2, "csDateFrom",formattedTwoWeeksEalierDate);
 
 				webClient.setValue(form2, "csDateTo",formattedCurrentDate);
-				HtmlPage page4 = webClient.clickByValue(form2, "Go");
-				
+				HtmlPage page4 = webClient.clickByValue(form2, "Go"); 
 				HtmlTable table2 = page4
 						.getFirstByXPath("//table[@class='journeyhistory']");
 				 

@@ -30,6 +30,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebWindowEvent;
+import com.gargoylesoftware.htmlunit.WebWindowListener;
 import com.gargoylesoftware.htmlunit.html.DomElement;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -43,7 +45,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableBody;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
-import com.latejourneys.proxy.OysterWebClient;
+import com.latejourneys.proxy.htmlunit.HtmlUnitWebClient;
 
 public class LateJourneysEndToEndTest {
 
@@ -193,7 +195,7 @@ public class LateJourneysEndToEndTest {
 		Date twoWeeksEarlierDate = calendar.getTime();
 		String formattedTwoWeeksEalierDate = df.format(twoWeeksEarlierDate);
 
-		final OysterWebClient webClient = new OysterWebClient();
+		final HtmlUnitWebClient webClient = new HtmlUnitWebClient();
 
 		Pattern dates = Pattern
 				.compile("(\\d{2}:\\d{2})\\s?-\\s?(\\d{2}:\\d{2})");
@@ -221,9 +223,9 @@ public class LateJourneysEndToEndTest {
 
 		HtmlElement result = (HtmlElement) page1
 				.getElementById("select_card_no");
-	//	for (DomElement element : result.getChildElements()) {
-		//	String cardNumber = element.asText().trim(); 
-String cardNumber = "057435651554"; {
+	 	for (DomElement element : result.getChildElements()) {
+		 String cardNumber = element.asText().trim(); 
+ //String cardNumber = "057435651554"; {
 			System.out.println("cardnumber:" + cardNumber);
 			time("before card");
 			if (isNumeric(cardNumber)) {
@@ -233,6 +235,7 @@ String cardNumber = "057435651554"; {
 
 				webClient.select(form, "select_card_no", cardNumber);
 
+			//	webClient.getOptions().setJavaScriptEnabled(true);
 				final HtmlPage page2 = webClient.clickByValue(form, "Go");
 
 				HtmlPage page3 = webClient.getPageByAnchor(page2,

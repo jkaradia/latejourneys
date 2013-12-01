@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.latejourneys.domain.Account;
-import com.latejourneys.domain.AllCards;
+import com.latejourneys.domain.Account; 
+import com.latejourneys.domain.Card;
 import com.latejourneys.domain.Journey;
 import com.latejourneys.service.DirectionService;
 import com.latejourneys.service.OysterService;
@@ -26,49 +27,20 @@ import com.latejourneys.service.OysterService;
 @Scope("request")
 public class HomeController {
 
-	@Resource(name = "oysterService")
+	@Autowired
 	private OysterService oysterService;
 	
-	@Resource(name = "directionService")
+	@Autowired
 	private DirectionService directionService;
-
-	/**
-	 * Handles request for adding two numbers
-	 */
-	@RequestMapping(value = "/cardnumbers", method = RequestMethod.GET)
-	public @ResponseBody
-	Collection<String> getCardNumbers() {
-
-		 
-		Collection<String> cards = oysterService.getCardNumbers();
-
-		// Return JSON of OyesterContext;
-		return cards;
-	}
-	
-	/**
-	 * Handles request for adding two numbers
-	 */
-	@RequestMapping(value = "/card/{cardnumber}", method = RequestMethod.GET)
-	public @ResponseBody
-	Collection<Journey> getJourneys(@PathVariable(value = "cardnumber") String cardNumber) {
-
-		 
-		Collection<Journey> journeys = oysterService.getJourneys(cardNumber);
-
-		// Return JSON of OyesterContext;
-		return journeys;
-	}
-	
 
 	/**
 	 * Handles request for adding two numbers
 	 */
 	@RequestMapping(value = "/cards", method = RequestMethod.GET)
 	public @ResponseBody
-	AllCards getAllCards() {
+	Collection <Card> getAllCards() {
 		long startTime = System.currentTimeMillis();
-		AllCards oysterContext = oysterService.allCards();
+		Collection <Card> oysterContext = oysterService.getCards();
 
 		System.out.println("******"+(System.currentTimeMillis()-startTime) + "*******");
 		// Return JSON of allCards;
@@ -109,12 +81,5 @@ public class HomeController {
 
 		 
 		  return directionService.duration (from.replace('+',' '), to);
-	}
-	
-	@RequestMapping(value = "/page/{pagename}", method = RequestMethod.GET)
-	public @ResponseBody 
-	Boolean prepareOysterHomePage(
-			@PathVariable(value = "pagename") String pageName  ) {
-		  return oysterService.preparePage(pageName);
 	}
 }

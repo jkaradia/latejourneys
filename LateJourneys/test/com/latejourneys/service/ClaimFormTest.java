@@ -12,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlLabel;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect; 
-import com.latejourneys.proxy.OysterWebClient;
+import com.latejourneys.proxy.htmlunit.HtmlUnitWebClient;
 
 public class ClaimFormTest {
 
@@ -21,7 +21,7 @@ public class ClaimFormTest {
 		Logger logger = Logger.getLogger("");
 		logger.setLevel(Level.OFF);
 
-		final OysterWebClient webClient = new OysterWebClient();
+		final HtmlUnitWebClient webClient = new HtmlUnitWebClient();
 
 		HtmlPage page1 = webClient
 				.getPage("https://www.tfl.gov.uk/tfl/tickets/refunds/tuberefund/refund.aspx?mode=oyster");

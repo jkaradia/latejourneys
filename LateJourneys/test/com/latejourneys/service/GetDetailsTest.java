@@ -11,7 +11,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
-import com.latejourneys.proxy.OysterWebClient;
+import com.latejourneys.proxy.htmlunit.HtmlUnitWebClient;
 
 public class GetDetailsTest {
 
@@ -22,7 +22,7 @@ public class GetDetailsTest {
 		Logger logger = Logger.getLogger("");
 		logger.setLevel(Level.OFF);
 	    
-		final OysterWebClient webClient = new OysterWebClient();
+		final HtmlUnitWebClient webClient = new HtmlUnitWebClient();
 
 		HtmlPage page1 = webClient
 				.getPage("https://oyster.tfl.gov.uk/oyster/entry.do");

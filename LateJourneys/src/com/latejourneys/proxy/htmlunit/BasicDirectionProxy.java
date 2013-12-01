@@ -1,4 +1,4 @@
-package com.latejourneys.proxy;
+package com.latejourneys.proxy.htmlunit;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
