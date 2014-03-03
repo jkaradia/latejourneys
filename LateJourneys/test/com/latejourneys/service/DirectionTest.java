@@ -25,9 +25,6 @@ public class DirectionTest extends DefaultHandler {
 	final private String charset = "UTF-8";
 
 	public InputStream connect() throws Exception {
-	/*	Proxy proxyAWS = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
-				"54.235.176.169", 3128));
-		*/
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(
 				"212.54.128.40", 3128));
 

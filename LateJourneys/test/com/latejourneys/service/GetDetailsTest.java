@@ -3,6 +3,8 @@ package com.latejourneys.service;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -29,11 +31,11 @@ public class GetDetailsTest {
 
 		HtmlForm form3 = (HtmlForm) page1
 				.getFirstByXPath("//form[@id='sign-in']");
-		HtmlInput input1 = form3.getInputByName("j_username");
-		input1.setValueAttribute("jkaradia");
+		HtmlInput input1 = form3.getInputByName("UserName");
+		input1.setValueAttribute("jayesh@karadia.com");
 
-		HtmlInput input2 = form3.getInputByName("j_password");
-		input2.setValueAttribute("Jay50esh");
+		HtmlInput input2 = form3.getInputByName("Password");
+		input2.setValueAttribute("Pa55word");
 
 		HtmlSubmitInput submit1 = form3.getInputByName("Sign in");
 
@@ -49,41 +51,41 @@ public class GetDetailsTest {
 				.getElementById("orderdiv");
 		
 		HtmlSelect title = result.getFirstByXPath("//select[@name='title']");
-		System.out.println("Title " + title.getDefaultValue());
+		Assert.assertEquals("Mr", title.getDefaultValue());
 	 
 
 		HtmlInput firstName = result.getFirstByXPath("//input[@id='forename']");
-		System.out.println("First Name:" + firstName.getValueAttribute());
+		Assert.assertEquals("Jayesh",firstName.getValueAttribute());
 		
 		HtmlInput initial = result.getFirstByXPath("//input[@id='middle_initial']");
-		System.out.println("Initial:" + initial.getValueAttribute());
+		Assert.assertEquals("P", initial.getValueAttribute());
 		
 		HtmlInput surname = result.getFirstByXPath("//input[@id='surname']");
-		System.out.println("Surname:" + surname.getValueAttribute());
+		Assert.assertEquals("Karadia", surname.getValueAttribute());
 		
 		HtmlInput housename = result.getFirstByXPath("//input[@id='housename']");
-		System.out.println("Housename:" + housename.getValueAttribute());
+		Assert.assertEquals("",housename.getValueAttribute());
 		
 		HtmlInput housenumber = result.getFirstByXPath("//input[@id='housenumber']");
-		System.out.println("Number:" + housenumber.getValueAttribute());
+		Assert.assertEquals("7", housenumber.getValueAttribute());
 		
 		HtmlInput street = result.getFirstByXPath("//input[@id='street']");
-		System.out.println("Street:" + street.getValueAttribute());
+		Assert.assertEquals("Carlise Close",street.getValueAttribute());
 		
 		HtmlInput town = result.getFirstByXPath("//input[@id='town']");
-		System.out.println("Street:" + town.getValueAttribute());
+		Assert.assertEquals("PINNER", town.getValueAttribute());
 		
 		HtmlInput county = result.getFirstByXPath("//input[@id='county']");
-		System.out.println("Street:" + county.getValueAttribute());
+		Assert.assertEquals("Middlesex",county.getValueAttribute());
 		
 		HtmlInput homephone = result.getFirstByXPath("//input[@id='homephone']");
-		System.out.println("Home:" + homephone.getValueAttribute());
+		Assert.assertEquals("07973626518", homephone.getValueAttribute());
 		
 		HtmlInput mobile = result.getFirstByXPath("//input[@id='mobilephone']");
-		System.out.println("Mobile" + mobile.getValueAttribute());
+		Assert.assertEquals("", mobile.getValueAttribute());
 		
 		HtmlInput email = result.getFirstByXPath("//input[@id='email']");
-		System.out.println("email" + email.getValueAttribute());
+		Assert.assertEquals("jayesh@karadia.com", email.getValueAttribute());
 		
 		
 		webClient.closeAllWindows();

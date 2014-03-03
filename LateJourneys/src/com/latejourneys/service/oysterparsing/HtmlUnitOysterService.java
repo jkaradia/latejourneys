@@ -58,6 +58,14 @@ public class HtmlUnitOysterService implements OysterService {
 	public Card getCardDetails(String cardNumber) {
 		return oysterProxy.getCardDetails(cardNumber);
 	}
+
+
+
+	@Override
+	public void close() {
+		oysterProxy.close();
+		
+	}
 	
 	
 

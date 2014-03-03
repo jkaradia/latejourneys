@@ -165,10 +165,10 @@ public class TestHttpClient {
 
 	// @Test
 	public void testParseTimeAndStation() {
-		String s = "08:50 - 09:10 	Rayners Lane to Acton Town 	 �2.20 	�10.35";
+		String s = "08:50 - 09:10 	Rayners Lane to Acton Town 	 ���2.20 	���10.35";
 
 		Pattern p = Pattern
-				.compile("(\\d{2}:\\d{2})\\s?-\\s?(\\d{2}:\\d{2})([\\w\\s]*?) to ([\\w\\s]*?)�.*");
+				.compile("(\\d{2}:\\d{2})\\s?-\\s?(\\d{2}:\\d{2})([\\w\\s]*?) to ([\\w\\s]*?)���.*");
 		Matcher m = p.matcher(s);
 
 		Assert.assertTrue(m.matches());

@@ -63,17 +63,22 @@ public class HtmlUnitOysterProxy implements Serializable {
 	public HtmlPage authenticate(String userName, String password) {
 
 		getLogonPage();
+		HtmlPage page = null;
 		HtmlForm form = (HtmlForm) webClient.getCurrentPage().getFirstByXPath(
 				"//form[@id='sign-in']");
+		if (form == null) {
+			
+				page = webClient.getCurrentPage();
+			} else {
 		HtmlInput input1 = form.getInputByName("UserName");
 		input1.setValueAttribute(userName);
 
 		HtmlInput input2 = form.getInputByName("Password");
 		input2.setValueAttribute(password);
 
-		HtmlPage page = webClient.clickByName(form, "Sign in");
+		 page = webClient.clickByName(form, "Sign in");
 		webClient.setCurrentPage(page);
-
+		}
 		return page;
 
 	}
@@ -349,6 +354,11 @@ public class HtmlUnitOysterProxy implements Serializable {
 
 		return card;
 
+	}
+
+	public void close() {
+		webClient.closeAllWindows();
+		
 	}
 
 }

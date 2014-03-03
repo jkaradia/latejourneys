@@ -12,6 +12,7 @@ public interface OysterService {
 	public Account getAccount();
 	public void initialise();
 	public Card getCardDetails(String cardNumber);
+	public void close();
 	
 	
 
