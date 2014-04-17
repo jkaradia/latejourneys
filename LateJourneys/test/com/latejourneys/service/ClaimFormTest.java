@@ -1,5 +1,6 @@
 package com.latejourneys.service;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,8 +64,9 @@ public class ClaimFormTest {
 				.getInputByName("ctl00$cphMain$txt_oyster_number");
 		oysterNumber.setValueAttribute("050234637564");	
 
-		HtmlRadioButtonInput cardType = (HtmlRadioButtonInput) form
-				.getElementById("cphMain_rbl_oyster_cardtype_0");
+		List<HtmlRadioButtonInput> cardTypes =  form
+				.getRadioButtonsByName("ctl00$cphMain$rbl_oyster_cardtype");
+		HtmlRadioButtonInput  cardType = cardTypes.get(0); //Adult Type
 		cardType.setChecked(true);
 
 		HtmlSelect lineOfDelay = form

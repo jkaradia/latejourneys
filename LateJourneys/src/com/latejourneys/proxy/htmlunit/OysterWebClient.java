@@ -2,15 +2,11 @@ package com.latejourneys.proxy.htmlunit;
 
 import java.net.URL;
 
-
-import com.gargoylesoftware.htmlunit.AjaxController;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.CookieManager;
 import com.gargoylesoftware.htmlunit.IncorrectnessListenerImpl;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -20,12 +16,21 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
 public class OysterWebClient extends WebClient {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HtmlPage currentPage;
 
 	public OysterWebClient() {
 		 super(BrowserVersion.CHROME);
 
 		super.setIncorrectnessListener(new IncorrectnessListenerImpl() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void notify(String arg0, Object arg1) {
@@ -48,6 +53,11 @@ public class OysterWebClient extends WebClient {
 		super.getOptions().setTimeout(9000);
 
 		setCookieManager(new CookieManager() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			protected int getPort(final URL url) {
 				final int r = super.getPort(url);
 				return r != -1 ? r : 80;
@@ -116,7 +126,7 @@ public class OysterWebClient extends WebClient {
 	}
 
 	public void select(HtmlForm form, String selection, String optionChosen) {
-		HtmlSelect select = (HtmlSelect) form.getElementById(selection);
+		HtmlSelect select =  form.getSelectByName(selection); //Need to check right select
 
 		HtmlOption option = select.getOptionByText(optionChosen);
 		select.setSelectedAttribute(option, true);

@@ -59,8 +59,6 @@ public class OysterServiceTest {
 		
 		Assert.assertTrue(cardNumbers.contains("054889018917"));
 		Assert.assertTrue(cardNumbers.contains("056408182999"));
-		Assert.assertTrue(cardNumbers.contains("056426184411"));
-		Assert.assertTrue(cardNumbers.contains("057435651554"));
 
 		StringWriter writer = new StringWriter();
 		ObjectMapper mapper = new ObjectMapper();
@@ -77,18 +75,9 @@ public class OysterServiceTest {
 			e.printStackTrace();
 		}
 		log.info("boo", writer.toString());
-		Assert.assertEquals(4, cards.size());
+		Assert.assertEquals(3, cards.size());
 	}
 	
-	@Test
-	public void testGetCardDetails() {
-		 
- 
-		Card card = oyster.getCardDetails("057435651554");
-		
-		Assert.assertEquals("057435651554", card.getCardNumber());
-		 
-	}
 
 
 
